@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MindQuest — Insights</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Display",
+                "SF Pro Text",
+                Inter,
+                Arial,
+                sans-serif;
+
+            color: #17372a;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #edf6ef,
+                    #e3f0e5,
+                    #d8eadc
+                );
+
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -5;
+            overflow: hidden;
+        }
+
+        .leaf {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: .45;
+        }
+
+        .leaf.one {
+            width: 430px;
+            height: 430px;
+            left: -150px;
+            top: -130px;
+            background: #9dbda4;
+        }
+
+        .leaf.two {
+            width: 500px;
+            height: 500px;
+            right: -170px;
+            top: 15%;
+            background: #79a88a;
+        }
+
+        .leaf.three {
+            width: 360px;
+            height: 360px;
+            left: 30%;
+            bottom: -160px;
+            background: #b7cfba;
+        }
+
+        .leaf.four {
+            width: 280px;
+            height: 280px;
+            right: 25%;
+            top: 5%;
+            background: #c5dac7;
+        }
+
+        .page {
+            width: min(1180px, calc(100% - 36px));
+            margin: auto;
+            padding: 32px 0 70px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 34px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 750;
+            letter-spacing: -.6px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #416753;
+
+            padding: 10px 15px;
+            border-radius: 12px;
+
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,.55);
+        }
+
+        .glass {
+            background: rgba(255,255,255,.55);
+
+            border: 1px solid rgba(255,255,255,.72);
+
+            box-shadow:
+                0 25px 70px rgba(42,80,56,.10),
+                inset 0 1px 0 rgba(255,255,255,.75);
+
+            backdrop-filter: blur(26px);
+            -webkit-backdrop-filter: blur(26px);
+        }
+
+        .hero {
+            padding: 42px 44px;
+            border-radius: 32px;
+            margin-bottom: 18px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+
+            padding: 8px 13px;
+
+            border-radius: 999px;
+
+            background: rgba(70,119,87,.09);
+
+            color: #4c785d;
+
+            font-size: 12px;
+            font-weight: 750;
+
+            margin-bottom: 17px;
+        }
+
+        h1 {
+            margin: 0;
+
+            font-size: clamp(38px, 6vw, 64px);
+
+            line-height: 1.02;
+
+            letter-spacing: -3px;
+        }
+
+        .hero p {
+            max-width: 650px;
+
+            margin: 17px 0 0;
+
+            color: #5b7565;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+        }
+
+        .metrics {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 14px;
+
+            margin-bottom: 18px;
+        }
+
+        .metric {
+            min-height: 145px;
+
+            padding: 25px;
+
+            border-radius: 24px;
+        }
+
+        .metric-label {
+            color: #6a8173;
+
+            font-size: 12px;
+
+            font-weight: 650;
+
+            margin-bottom: 17px;
+        }
+
+        .metric-value {
+            color: #234e37;
+
+            font-size: 35px;
+
+            font-weight: 750;
+
+            letter-spacing: -1.7px;
+        }
+
+        .metric-note {
+            margin-top: 8px;
+
+            color: #769080;
+
+            font-size: 12px;
+        }
+
+        .grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.25fr)
+                minmax(300px, .75fr);
+
+            gap: 18px;
+        }
+
+        .panel {
+            padding: 30px;
+
+            border-radius: 28px;
+        }
+
+        .panel-title {
+            margin: 0;
+
+            color: #1f4732;
+
+            font-size: 18px;
+
+            letter-spacing: -.45px;
+        }
+
+        .panel-description {
+            margin: 7px 0 25px;
+
+            color: #718577;
+
+            font-size: 13px;
+
+            line-height: 1.55;
+        }
+
+        .category-list {
+            display: grid;
+            gap: 17px;
+        }
+
+        .category-row {
+            display: grid;
+            gap: 8px;
+        }
+
+        .category-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-name {
+            color: #456452;
+
+            font-size: 13px;
+
+            font-weight: 650;
+        }
+
+        .category-number {
+            color: #7b9081;
+
+            font-size: 12px;
+
+            font-weight: 650;
+        }
+
+        .track {
+            height: 9px;
+
+            overflow: hidden;
+
+            border-radius: 999px;
+
+            background: rgba(63,106,77,.09);
+        }
+
+        .track span {
+            display: block;
+
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #4d805f,
+                    #76a789
+                );
+        }
+
+        .highlight {
+            padding: 24px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(71,119,87,.10),
+                    rgba(255,255,255,.30)
+                );
+
+            border: 1px solid rgba(79,124,94,.10);
+
+            margin-bottom: 20px;
+        }
+
+        .highlight-label {
+            color: #718678;
+
+            font-size: 12px;
+
+            margin-bottom: 8px;
+        }
+
+        .highlight-value {
+            color: #2b5d40;
+
+            font-size: 25px;
+
+            font-weight: 750;
+
+            letter-spacing: -.7px;
+        }
+
+        .highlight-description {
+            margin-top: 8px;
+
+            color: #698071;
+
+            font-size: 13px;
+
+            line-height: 1.55;
+        }
+
+        .status-card {
+            padding: 20px;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,.42);
+
+            border: 1px solid rgba(255,255,255,.55);
+        }
+
+        .status-line {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .status-name {
+            color: #466452;
+
+            font-size: 13px;
+
+            font-weight: 650;
+        }
+
+        .status-pill {
+            padding: 7px 10px;
+
+            border-radius: 999px;
+
+            background: rgba(65,130,83,.10);
+
+            color: #4d7d5d;
+
+            font-size: 11px;
+
+            font-weight: 750;
+        }
+
+        .daily-list {
+            display: grid;
+
+            gap: 14px;
+        }
+
+        .daily-row {
+            display: grid;
+
+            grid-template-columns:
+                100px
+                1fr
+                35px;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .daily-date {
+            color: #718577;
+
+            font-size: 11px;
+        }
+
+        .daily-track {
+            height: 7px;
+
+            overflow: hidden;
+
+            border-radius: 999px;
+
+            background: rgba(63,106,77,.08);
+        }
+
+        .daily-track span {
+            display: block;
+
+            height: 100%;
+
+            border-radius: inherit;
+
+            background: #6b9b79;
+        }
+
+        .daily-number {
+            text-align: right;
+
+            color: #678070;
+
+            font-size: 11px;
+
+            font-weight: 650;
+        }
+
+        .empty {
+            padding: 24px;
+
+            text-align: center;
+
+            color: #728679;
+
+            font-size: 13px;
+
+            border-radius: 18px;
+
+            background: rgba(255,255,255,.32);
+        }
+
+        .footer {
+            margin-top: 28px;
+
+            text-align: center;
+
+            color: #7b9182;
+
+            font-size: 11px;
+        }
+
+        @media (max-width: 900px) {
+
+            .metrics {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .page {
+                width: calc(100% - 24px);
+
+                padding-top: 18px;
+            }
+
+            .hero {
+                padding: 30px 25px;
+
+                border-radius: 25px;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr 1fr;
+
+                gap: 10px;
+            }
+
+            .metric {
+                padding: 20px;
+
+                border-radius: 20px;
+            }
+
+            .metric-value {
+                font-size: 28px;
+            }
+
+            .panel {
+                padding: 23px;
+
+                border-radius: 24px;
+            }
+
+            .daily-row {
+                grid-template-columns:
+                    75px
+                    1fr
+                    25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="leaf one"></div>
+    <div class="leaf two"></div>
+    <div class="leaf three"></div>
+    <div class="leaf four"></div>
+</div>
+
+
+<div class="page">
+
+    <nav>
+
+        <div class="brand">
+            MindQuest
+        </div>
+
+        <a href="/" class="nav-link">
+            New check-in
+        </a>
+
+    </nav>
+
+
+    <section class="glass hero">
+
+        <div class="eyebrow">
+            Overview
+        </div>
+
+        <h1>
+            A clearer view of support.
+        </h1>
+
+        <p>
+            A calm overview of check-ins, support activity,
+            and the areas students are reaching out about.
+        </p>
+
+    </section>
+
+
+    <section class="metrics">
+
+        <div class="glass metric">
+
+            <div class="metric-label">
+                Total check-ins
+            </div>
+
+            <div class="metric-value">
+                {{ analytics.total_checkins }}
+            </div>
+
+            <div class="metric-note">
+                Check-ins recorded
+            </div>
+
+        </div>
+
+
+        <div class="glass metric">
+
+            <div class="metric-label">
+                Support requests
+            </div>
+
+            <div class="metric-value">
+                {{ analytics.total_requests }}
+            </div>
+
+            <div class="metric-note">
+                Human support requested
+            </div>
+
+        </div>
+
+
+        <div class="glass metric">
+
+            <div class="metric-label">
+                Priority requests
+            </div>
+
+            <div class="metric-value">
+                {{ analytics.urgent_requests }}
+            </div>
+
+            <div class="metric-note">
+                Routed for faster attention
+            </div>
+
+        </div>
+
+
+        <div class="glass metric">
+
+            <div class="metric-label">
+                System status
+            </div>
+
+            <div class="metric-value">
+                Active
+            </div>
+
+            <div class="metric-note">
+                Check-in system available
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="grid">
+
+
+        <!-- CATEGORY PANEL -->
+
+        <div class="glass panel">
+
+            <h2 class="panel-title">
+                What students are checking in about
+            </h2>
+
+            <p class="panel-description">
+                A broad view of the support areas appearing
+                across recent check-ins.
+            </p>
+
+
+            {% if analytics.category_counts %}
+
+                {% set category_max = namespace(value=1) %}
+
+                {% for item in analytics.category_counts %}
+
+                    {% if item['total'] > category_max.value %}
+
+                        {% set category_max.value = item['total'] %}
+
+                    {% endif %}
+
+                {% endfor %}
+
+
+                <div class="category-list">
+
+                    {% for item in analytics.category_counts %}
+
+                    <div class="category-row">
+
+                        <div class="category-top">
+
+                            <span class="category-name">
+                                {{ item['category']|replace('_', ' ')|title }}
+                            </span>
+
+                            <span class="category-number">
+                                {{ item['total'] }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="track">
+
+                            <span
+                                style="
+                                    width:
+                                    {{
+                                        (
+                                            (item['total'] / category_max.value) * 100
+                                        )
+                                        if category_max.value
+                                        else 5
+                                    }}%;
+                                "
+                            ></span>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty">
+                    No check-in data yet.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- CURRENT PICTURE -->
+
+        <div class="glass panel">
+
+            <h2 class="panel-title">
+                Current picture
+            </h2>
+
+            <p class="panel-description">
+                A simple summary of activity across the platform.
+            </p>
+
+
+            <div class="highlight">
+
+                <div class="highlight-label">
+                    Most common area
+                </div>
+
+                <div class="highlight-value">
+
+                    {% if analytics.most_common %}
+
+                        {{ analytics.most_common
+                           |replace('_', ' ')
+                           |title }}
+
+                    {% else %}
+
+                        No data yet
+
+                    {% endif %}
+
+                </div>
+
+                <div class="highlight-description">
+                    The support area appearing most often
+                    in recorded check-ins.
+                </div>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <div class="status-line">
+
+                    <span class="status-name">
+                        Human support pathway
+                    </span>
+
+                    <span class="status-pill">
+                        Available
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DAILY ACTIVITY -->
+
+        <div class="glass panel">
+
+            <h2 class="panel-title">
+                Recent activity
+            </h2>
+
+            <p class="panel-description">
+                Check-in activity across recent days.
+            </p>
+
+
+            {% if analytics.daily_counts %}
+
+                {% set daily_max = namespace(value=1) %}
+
+                {% for item in analytics.daily_counts %}
+
+                    {% if item['total'] > daily_max.value %}
+
+                        {% set daily_max.value = item['total'] %}
+
+                    {% endif %}
+
+                {% endfor %}
+
+
+                <div class="daily-list">
+
+                    {% for item in analytics.daily_counts %}
+
+                    <div class="daily-row">
+
+                        <div class="daily-date">
+                            {{ item['date'] }}
+                        </div>
+
+
+                        <div class="daily-track">
+
+                            <span
+                                style="
+                                    width:
+                                    {{
+                                        (
+                                            (item['total'] / daily_max.value) * 100
+                                        )
+                                        if daily_max.value
+                                        else 5
+                                    }}%;
+                                "
+                            ></span>
+
+                        </div>
+
+
+                        <div class="daily-number">
+                            {{ item['total'] }}
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty">
+                    No recent activity yet.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- SUPPORT ACTIVITY -->
+
+        <div class="glass panel">
+
+            <h2 class="panel-title">
+                Human support activity
+            </h2>
+
+            <p class="panel-description">
+                Support requests created through MindQuest.
+            </p>
+
+
+            <div class="highlight">
+
+                <div class="highlight-label">
+                    Requests received
+                </div>
+
+                <div class="highlight-value">
+                    {{ analytics.total_requests }}
+                </div>
+
+                <div class="highlight-description">
+                    Each request can be reviewed and followed
+                    up by the designated support team.
+                </div>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <div class="status-line">
+
+                    <span class="status-name">
+                        Support channel
+                    </span>
+
+                    <span class="status-pill">
+                        Active
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+        MindQuest
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MindQuest - Support Status</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        h1, h2 {
+            margin-top: 0;
+        }
+
+        input,
+        textarea,
+        button {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background: #222;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #eee;
+            font-weight: bold;
+        }
+
+        .message {
+            padding: 14px;
+            border-radius: 12px;
+            margin: 10px 0;
+        }
+
+        .student {
+            background: #eef4ff;
+            margin-left: 80px;
+        }
+
+        .staff {
+            background: #edf8ef;
+            margin-right: 80px;
+        }
+
+        .sender {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .time {
+            font-size: 11px;
+            color: #777;
+            margin-top: 8px;
+        }
+
+        .error {
+            background: #fff0f0;
+            padding: 15px;
+            border-radius: 10px;
+            color: #a00;
+        }
+
+        .meeting {
+            background: #f3f7f4;
+            padding: 18px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>MindQuest Support</h1>
+
+        <p>
+            Check your support request and continue your conversation
+            with the support team.
+        </p>
+
+        <form method="POST" action="/support-status">
+
+            <label>
+                Ticket Number
+            </label>
+
+            <input
+                type="text"
+                name="ticket_no"
+                placeholder="Example: MQ-260916-AB12"
+                value="{{ request_data['ticket_no'] if request_data else '' }}"
+                required
+            >
+
+            <button type="submit">
+                Check Status
+            </button>
+
+        </form>
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    {% if request_data %}
+
+    <!-- SUPPORT REQUEST -->
+
+    <div class="card">
+
+        <h2>Support Request</h2>
+
+        <p>
+            <strong>Ticket:</strong>
+            {{ request_data['ticket_no'] }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+
+            <span class="status">
+                {{ request_data['status'] }}
+            </span>
+        </p>
+
+        {% if request_data['category'] %}
+
+        <p>
+            <strong>Category:</strong>
+            {{ request_data['category'] }}
+        </p>
+
+        {% endif %}
+
+        {% if request_data['mentor_name'] %}
+
+        <p>
+            <strong>Support person:</strong>
+            {{ request_data['mentor_name'] }}
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- MEETING -->
+
+    {% if meeting_data %}
+
+    <div class="card">
+
+        <h2>Meeting Details</h2>
+
+        <div class="meeting">
+
+            {% if meeting_data['mentor_name'] %}
+
+            <p>
+                <strong>Support person:</strong>
+                {{ meeting_data['mentor_name'] }}
+            </p>
+
+            {% endif %}
+
+            {% if meeting_data['meeting_date'] %}
+
+            <p>
+                <strong>Date:</strong>
+                {{ meeting_data['meeting_date'] }}
+            </p>
+
+            {% endif %}
+
+            {% if meeting_data['meeting_time'] %}
+
+            <p>
+                <strong>Time:</strong>
+                {{ meeting_data['meeting_time'] }}
+            </p>
+
+            {% endif %}
+
+            {% if meeting_data['meeting_method'] %}
+
+            <p>
+                <strong>Method:</strong>
+                {{ meeting_data['meeting_method'] }}
+            </p>
+
+            {% endif %}
+
+            {% if meeting_data['meeting_location'] %}
+
+            <p>
+                <strong>Location:</strong>
+                {{ meeting_data['meeting_location'] }}
+            </p>
+
+            {% endif %}
+
+            {% if meeting_data['contact_details'] %}
+
+            <p>
+                <strong>Contact:</strong>
+                {{ meeting_data['contact_details'] }}
+            </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- CONVERSATION -->
+
+    <div class="card">
+
+        <h2>Conversation</h2>
+
+        {% if messages %}
+
+            {% for msg in messages %}
+
+            <div class="message {{ msg['sender_type'] }}">
+
+                <div class="sender">
+
+                    {% if msg['sender_type'] == 'student' %}
+                        You
+                    {% else %}
+                        Support Team
+                    {% endif %}
+
+                </div>
+
+                <div>
+                    {{ msg['message'] }}
+                </div>
+
+                <div class="time">
+                    {{ msg['created_at'] }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>
+                No messages yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- SEND MESSAGE -->
+
+    <div class="card">
+
+        <h2>Send a Message</h2>
+
+        <form method="POST" action="/send-message">
+
+            <input
+                type="hidden"
+                name="ticket_no"
+                value="{{ request_data['ticket_no'] }}"
+            >
+
+            <textarea
+                name="message"
+                placeholder="Write a message to the support team..."
+                required
+            ></textarea>
+
+            <button type="submit">
+                Send Message
+            </button>
+
+        </form>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

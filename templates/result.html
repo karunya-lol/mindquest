@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MindQuest</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                         "SF Pro Text", Inter, Arial, sans-serif;
+            color: #17352b;
+            background: #edf5ef;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(126, 170, 137, .35), transparent 35%),
+                radial-gradient(circle at 85% 75%, rgba(81, 137, 104, .25), transparent 38%),
+                linear-gradient(135deg, #edf6ef, #dfeee3);
+        }
+
+        .leaf {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(55px);
+            opacity: .5;
+        }
+
+        .leaf.one {
+            width: 360px;
+            height: 360px;
+            background: #9bbda3;
+            top: -100px;
+            left: -80px;
+        }
+
+        .leaf.two {
+            width: 420px;
+            height: 420px;
+            background: #76a989;
+            right: -140px;
+            top: 20%;
+        }
+
+        .leaf.three {
+            width: 300px;
+            height: 300px;
+            background: #b5cfb9;
+            bottom: -100px;
+            left: 30%;
+        }
+
+        .page {
+            width: min(920px, calc(100% - 32px));
+            margin: auto;
+            padding: 42px 0 70px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 55px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #315e4b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .glass {
+            background: rgba(255,255,255,.58);
+            border: 1px solid rgba(255,255,255,.75);
+            box-shadow:
+                0 25px 70px rgba(43, 82, 58, .12),
+                inset 0 1px 0 rgba(255,255,255,.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        .card {
+            border-radius: 32px;
+            padding: 48px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            padding: 8px 13px;
+            border-radius: 999px;
+            background: rgba(76, 125, 91, .10);
+            color: #47775a;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(38px, 6vw, 62px);
+            line-height: 1.02;
+            letter-spacing: -2.5px;
+            max-width: 700px;
+        }
+
+        .category {
+            margin-top: 18px;
+            font-size: 17px;
+            color: #527260;
+        }
+
+        .confidence {
+            margin-top: 30px;
+        }
+
+        .confidence-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #65806f;
+            margin-bottom: 9px;
+        }
+
+        .bar {
+            height: 8px;
+            border-radius: 99px;
+            background: rgba(70, 110, 81, .12);
+            overflow: hidden;
+        }
+
+        .bar span {
+            display: block;
+            height: 100%;
+            width: {{ confidence }}%;
+            border-radius: inherit;
+            background: #5d9270;
+        }
+
+        .intro {
+            margin-top: 32px;
+            font-size: 17px;
+            line-height: 1.7;
+            color: #456354;
+        }
+
+        .section {
+            margin-top: 38px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            margin: 0 0 15px;
+            letter-spacing: -.3px;
+        }
+
+        .suggestions {
+            display: grid;
+            gap: 12px;
+        }
+
+        .suggestion {
+            padding: 17px 18px;
+            border-radius: 17px;
+            background: rgba(255,255,255,.52);
+            border: 1px solid rgba(255,255,255,.65);
+            color: #456354;
+            line-height: 1.55;
+        }
+
+        .support-box {
+            margin-top: 38px;
+            padding: 24px;
+            border-radius: 22px;
+            background: rgba(72, 119, 88, .09);
+            border: 1px solid rgba(72, 119, 88, .14);
+        }
+
+        .support-box h2 {
+            margin: 0 0 8px;
+            font-size: 19px;
+        }
+
+        .support-box p {
+            margin: 0;
+            color: #587262;
+            line-height: 1.6;
+        }
+
+        .support-form {
+            margin-top: 18px;
+        }
+
+        .support-button {
+            width: 100%;
+            border: 0;
+            padding: 17px 22px;
+            border-radius: 15px;
+            background: #285c43;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .support-button:hover {
+            transform: translateY(-1px);
+            background: #214d39;
+        }
+
+        .support-button:disabled {
+            opacity: .65;
+            cursor: wait;
+            transform: none;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .action {
+            text-decoration: none;
+            padding: 13px 18px;
+            border-radius: 13px;
+            font-size: 14px;
+            font-weight: 650;
+        }
+
+        .primary {
+            background: #285c43;
+            color: white;
+        }
+
+        .secondary {
+            background: rgba(255,255,255,.6);
+            color: #315e4b;
+            border: 1px solid rgba(255,255,255,.7);
+        }
+
+        @media (max-width: 650px) {
+            .page {
+                padding-top: 25px;
+            }
+
+            .card {
+                padding: 28px;
+                border-radius: 25px;
+            }
+
+            nav {
+                margin-bottom: 30px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="leaf one"></div>
+    <div class="leaf two"></div>
+    <div class="leaf three"></div>
+</div>
+
+<div class="page">
+
+    <nav>
+        <div class="brand">MindQuest</div>
+        <a href="/insights">Insights</a>
+    </nav>
+
+    <main class="glass card">
+
+        <div class="eyebrow">Your check-in</div>
+
+        <h1>Here’s what stood out.</h1>
+
+        <div class="category">
+            {{ category_short }}
+        </div>
+
+        <div class="confidence">
+            <div class="confidence-top">
+                <span>Check-in clarity</span>
+                <span>{{ confidence }}%</span>
+            </div>
+
+            <div class="bar">
+                <span></span>
+            </div>
+        </div>
+
+        <p class="intro">
+            {{ intro }}
+        </p>
+
+        <section class="section">
+            <h2>A few things that may help</h2>
+
+            <div class="suggestions">
+                {% for suggestion in suggestions %}
+                    <div class="suggestion">
+                        {{ suggestion }}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="support-box">
+
+            <h2>Want to talk to someone?</h2>
+
+            <p>
+                You can request human support. A member of the support
+                team can review your request and arrange a conversation
+                with you.
+            </p>
+
+            <form
+                class="support-form"
+                action="/request-support"
+                method="POST"
+                id="supportForm"
+            >
+
+                <input
+                    type="hidden"
+                    name="message"
+                    value="{{ request.form.get('message', '') }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="category"
+                    value="{{ category }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="confidence"
+                    value="{{ confidence }}"
+                >
+
+                <button
+                    type="submit"
+                    class="support-button"
+                    id="supportButton"
+                >
+                    Request human support
+                </button>
+
+            </form>
+
+        </section>
+
+        <div class="actions">
+            <a href="/" class="action primary">New check-in</a>
+            <a href="/insights" class="action secondary">View insights</a>
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+    const form = document.getElementById("supportForm");
+    const button = document.getElementById("supportButton");
+
+    form.addEventListener("submit", function () {
+        button.disabled = true;
+        button.textContent = "Creating support request…";
+    });
+</script>
+
+</body>
+</html>

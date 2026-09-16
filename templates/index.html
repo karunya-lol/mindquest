@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MindQuest</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Inter",
+                "Segoe UI",
+                sans-serif;
+
+            color: #17352b;
+
+            background:
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(170, 215, 188, 0.45),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(115, 175, 140, 0.30),
+                    transparent 40%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eef8f1,
+                    #dcefe2 50%,
+                    #edf7f0
+                );
+
+            overflow-x: hidden;
+        }
+
+
+        /* ----------------------------------------
+           BACKGROUND
+        ---------------------------------------- */
+
+        .background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .leaf {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(55px);
+            opacity: 0.42;
+        }
+
+        .leaf.one {
+            width: 360px;
+            height: 360px;
+            top: -100px;
+            left: -80px;
+            background: #9ac9aa;
+        }
+
+        .leaf.two {
+            width: 420px;
+            height: 420px;
+            right: -130px;
+            top: 25%;
+            background: #b7d9bd;
+        }
+
+        .leaf.three {
+            width: 300px;
+            height: 300px;
+            left: 35%;
+            bottom: -140px;
+            background: #8dbca0;
+        }
+
+
+        /* ----------------------------------------
+           NAVIGATION
+        ---------------------------------------- */
+
+        nav {
+            position: relative;
+            z-index: 5;
+
+            width: min(1180px, 92%);
+            margin: 0 auto;
+
+            padding: 26px 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: 750;
+            letter-spacing: -0.5px;
+            color: #17352b;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #416557;
+
+            padding: 10px 16px;
+
+            border-radius: 999px;
+
+            background: rgba(255,255,255,0.45);
+
+            border: 1px solid rgba(255,255,255,0.65);
+
+            backdrop-filter: blur(16px);
+
+            transition: 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.72);
+            transform: translateY(-1px);
+        }
+
+
+        /* ----------------------------------------
+           MAIN
+        ---------------------------------------- */
+
+        main {
+            position: relative;
+            z-index: 2;
+
+            width: min(1180px, 92%);
+            margin: 0 auto;
+
+            min-height: calc(100vh - 90px);
+
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+
+            gap: 70px;
+
+            align-items: center;
+
+            padding: 45px 0 80px;
+        }
+
+
+        /* ----------------------------------------
+           HERO
+        ---------------------------------------- */
+
+        .hero {
+            max-width: 650px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 13px;
+
+            border-radius: 999px;
+
+            background: rgba(255,255,255,0.45);
+
+            border: 1px solid rgba(255,255,255,0.7);
+
+            backdrop-filter: blur(16px);
+
+            color: #527667;
+
+            font-size: 13px;
+            font-weight: 650;
+
+            margin-bottom: 24px;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #6fa684;
+        }
+
+        h1 {
+            font-size: clamp(48px, 6vw, 82px);
+
+            line-height: 0.98;
+
+            letter-spacing: -4px;
+
+            font-weight: 760;
+
+            color: #17352b;
+
+            margin-bottom: 28px;
+        }
+
+        .hero-description {
+            max-width: 570px;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+
+            color: #567367;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* ----------------------------------------
+           TRUST ROW
+        ---------------------------------------- */
+
+        .trust-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .trust-item {
+            padding: 10px 14px;
+
+            border-radius: 999px;
+
+            background: rgba(255,255,255,0.42);
+
+            border: 1px solid rgba(255,255,255,0.65);
+
+            backdrop-filter: blur(14px);
+
+            color: #496b5c;
+
+            font-size: 13px;
+        }
+
+
+        /* ----------------------------------------
+           CARD
+        ---------------------------------------- */
+
+        .card {
+
+            padding: 34px;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.68),
+                    rgba(255,255,255,0.35)
+                );
+
+            border: 1px solid rgba(255,255,255,0.78);
+
+            backdrop-filter: blur(28px);
+
+            -webkit-backdrop-filter: blur(28px);
+
+            box-shadow:
+                0 30px 80px rgba(38, 79, 58, 0.13),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+        }
+
+        .card-label {
+            font-size: 13px;
+            font-weight: 700;
+
+            color: #668575;
+
+            margin-bottom: 9px;
+        }
+
+        .card-title {
+            font-size: 29px;
+
+            letter-spacing: -1px;
+
+            font-weight: 730;
+
+            color: #1c3d30;
+
+            margin-bottom: 9px;
+        }
+
+        .card-description {
+            color: #6b8177;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* ----------------------------------------
+           FORM
+        ---------------------------------------- */
+
+        form {
+            width: 100%;
+        }
+
+        textarea {
+
+            width: 100%;
+
+            min-height: 175px;
+
+            resize: vertical;
+
+            border: 1px solid rgba(91, 128, 108, 0.18);
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,0.56);
+
+            padding: 18px;
+
+            font-family: inherit;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+            color: #234538;
+
+            outline: none;
+
+            transition: 0.2s ease;
+
+            box-shadow:
+                inset 0 1px 2px rgba(30,70,50,0.03);
+        }
+
+        textarea::placeholder {
+            color: #8a9d94;
+        }
+
+        textarea:focus {
+
+            border-color: rgba(84, 137, 105, 0.45);
+
+            background: rgba(255,255,255,0.72);
+
+            box-shadow:
+                0 0 0 4px rgba(100, 160, 120, 0.10);
+        }
+
+
+        /* ----------------------------------------
+           URGENT OPTION
+        ---------------------------------------- */
+
+        .urgent-option {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 11px;
+
+            margin-top: 17px;
+
+            padding: 14px;
+
+            border-radius: 17px;
+
+            background: rgba(255,255,255,0.32);
+
+            border: 1px solid rgba(255,255,255,0.52);
+
+            cursor: pointer;
+        }
+
+        .urgent-option input {
+
+            margin-top: 3px;
+
+            width: 16px;
+
+            height: 16px;
+
+            accent-color: #5e8d70;
+
+            cursor: pointer;
+        }
+
+        .urgent-text {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #5b7568;
+        }
+
+        .urgent-title {
+            display: block;
+
+            color: #385c4b;
+
+            font-weight: 700;
+
+            margin-bottom: 2px;
+        }
+
+
+        /* ----------------------------------------
+           BUTTON
+        ---------------------------------------- */
+
+        button {
+
+            width: 100%;
+
+            margin-top: 20px;
+
+            border: none;
+
+            border-radius: 17px;
+
+            padding: 16px 20px;
+
+            background: #244f3c;
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 28px rgba(36,79,60,0.18);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 17px 34px rgba(36,79,60,0.22);
+        }
+
+        button:active {
+
+            transform: translateY(0);
+
+        }
+
+        button:disabled {
+
+            opacity: 0.65;
+
+            cursor: wait;
+
+            transform: none;
+        }
+
+
+        /* ----------------------------------------
+           ERROR
+        ---------------------------------------- */
+
+        .error {
+
+            margin-bottom: 15px;
+
+            padding: 12px 14px;
+
+            border-radius: 14px;
+
+            background: rgba(190, 90, 90, 0.10);
+
+            border: 1px solid rgba(190, 90, 90, 0.16);
+
+            color: #8b4f4f;
+
+            font-size: 13px;
+        }
+
+
+        /* ----------------------------------------
+           CARD FOOTER
+        ---------------------------------------- */
+
+        .card-footer {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-top: 20px;
+
+            color: #7b9087;
+
+            font-size: 12px;
+
+            line-height: 1.4;
+        }
+
+
+        /* ----------------------------------------
+           RESPONSIVE
+        ---------------------------------------- */
+
+        @media (max-width: 850px) {
+
+            main {
+
+                grid-template-columns: 1fr;
+
+                gap: 45px;
+
+                padding-top: 20px;
+            }
+
+            .hero {
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 55px;
+                letter-spacing: -3px;
+            }
+
+            .card {
+                max-width: 650px;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            nav {
+                padding: 20px 0;
+            }
+
+            main {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 45px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .card {
+                padding: 24px;
+                border-radius: 24px;
+            }
+
+            .card-title {
+                font-size: 25px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Background -->
+    <div class="background">
+
+        <div class="leaf one"></div>
+        <div class="leaf two"></div>
+        <div class="leaf three"></div>
+
+    </div>
+
+
+    <!-- Navigation -->
+    <nav>
+
+        <div class="brand">
+            MindQuest
+        </div>
+
+        <a
+            class="nav-link"
+            href="/insights"
+        >
+            Insights
+        </a>
+
+    </nav>
+
+
+    <!-- Main -->
+    <main>
+
+
+        <!-- Hero -->
+        <section class="hero">
+
+            <div class="eyebrow">
+                <span class="dot"></span>
+                A space to check in
+            </div>
+
+
+            <h1>
+                A quieter<br>
+                place to<br>
+                check in.
+            </h1>
+
+
+            <p class="hero-description">
+                Put what is on your mind into words.
+                MindQuest helps organize your check-in
+                and points you toward practical support.
+            </p>
+
+
+            <div class="trust-row">
+
+                <div class="trust-item">
+                    Simple check-in
+                </div>
+
+                <div class="trust-item">
+                    Practical guidance
+                </div>
+
+                <div class="trust-item">
+                    Human support
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Check-in Card -->
+        <section class="card">
+
+            <div class="card-label">
+                TODAY
+            </div>
+
+            <div class="card-title">
+                How are things going?
+            </div>
+
+            <div class="card-description">
+                There is no perfect way to write this.
+                Just describe what has been on your mind.
+            </div>
+
+
+            {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <!-- IMPORTANT:
+                 This form submits to /check
+            -->
+
+            <form
+                action="/check"
+                method="POST"
+                id="checkInForm"
+            >
+
+                <textarea
+                    id="message"
+                    name="message"
+                    placeholder="I've been feeling..."
+                    required
+                ></textarea>
+
+
+                <label
+                    class="urgent-option"
+                    for="urgent"
+                >
+
+                    <input
+                        type="checkbox"
+                        id="urgent"
+                        name="urgent"
+                        value="true"
+                    >
+
+                    <span class="urgent-text">
+
+                        <span class="urgent-title">
+                            I need urgent human support
+                        </span>
+
+                        This will send the request directly
+                        to the support team.
+
+                    </span>
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    id="continueButton"
+                >
+                    Continue
+                </button>
+
+
+                <div class="card-footer">
+
+                    <span>
+                        Your words are used to guide
+                        the next step.
+                    </span>
+
+                    <span>
+                        Secure check-in
+                    </span>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script>
+
+        const form =
+            document.getElementById("checkInForm");
+
+        const message =
+            document.getElementById("message");
+
+        const button =
+            document.getElementById("continueButton");
+
+
+        form.addEventListener(
+            "submit",
+            function(event) {
+
+                /*
+                 * Do NOT prevent the form submission.
+                 * Flask needs to receive POST /check.
+                 */
+
+                if (!message.value.trim()) {
+
+                    event.preventDefault();
+
+                    message.focus();
+
+                    return;
+                }
+
+
+                button.disabled = true;
+
+                button.textContent =
+                    "Checking in...";
+
+            }
+        );
+
+
+        /*
+         * Keyboard shortcut:
+         * Cmd + Enter on Mac
+         * Ctrl + Enter on Windows/Linux
+         */
+
+        message.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Enter" &&
+                    (event.metaKey || event.ctrlKey)
+                ) {
+
+                    event.preventDefault();
+
+                    if (message.value.trim()) {
+
+                        form.requestSubmit();
+
+                    }
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

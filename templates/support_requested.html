@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MindQuest - Support Request Created</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+        }
+
+        .check {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: #edf7f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 25px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .ticket-box {
+            background: #f3f6f4;
+            border: 1px solid #dce5df;
+            border-radius: 14px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .ticket-label {
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            color: #68756e;
+            margin-bottom: 10px;
+        }
+
+        .ticket-number {
+            font-size: 27px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            word-break: break-word;
+        }
+
+        .important {
+            background: #fff8e8;
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 15px;
+            background: #1f2d27;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 25px;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .secondary {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #555;
+            text-decoration: none;
+        }
+
+        .steps {
+            margin-top: 35px;
+            border-top: 1px solid #ddd;
+            padding-top: 25px;
+        }
+
+        .step {
+            display: flex;
+            gap: 15px;
+            margin: 18px 0;
+        }
+
+        .step-number {
+            min-width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #e5eee8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .step-text {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .ticket-number {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="check">
+            ✓
+        </div>
+
+        <h1>
+            Support request created.
+        </h1>
+
+        <p class="subtitle">
+            Your request has been recorded successfully.
+            Keep your ticket number so you can check your support status
+            and continue the conversation.
+        </p>
+
+
+        <!-- TICKET NUMBER -->
+
+        <div class="ticket-box">
+
+            <div class="ticket-label">
+                YOUR TICKET NUMBER
+            </div>
+
+            <div class="ticket-number">
+                {{ ticket_no }}
+            </div>
+
+            <p style="color:#68756e;">
+                Keep this number for future reference.
+            </p>
+
+        </div>
+
+
+        <!-- OPEN CONVERSATION -->
+
+        <a
+            class="button"
+            href="{{ url_for('support_status', ticket_no=ticket_no) }}"
+        >
+            View Support Status & Conversation
+        </a>
+
+
+        <a
+            class="secondary"
+            href="/"
+        >
+            Back to MindQuest
+        </a>
+
+
+        <!-- IMPORTANT -->
+
+        <div class="important">
+
+            <strong>Important:</strong>
+
+            <br>
+
+            Your ticket is now available to the support team.
+            You can return to the support-status page using your
+            ticket number to view updates and send messages.
+
+        </div>
+
+
+        <!-- PROCESS -->
+
+        <div class="steps">
+
+            <h2>
+                What happens next
+            </h2>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div>
+                    <div class="step-title">
+                        Your request was recorded
+                    </div>
+
+                    <div class="step-text">
+                        MindQuest created a unique support ticket
+                        and stored your request.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div>
+                    <div class="step-title">
+                        Support team reviews it
+                    </div>
+
+                    <div class="step-text">
+                        A support staff member can review the request
+                        and update its status.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <div>
+                    <div class="step-title">
+                        Continue the conversation
+                    </div>
+
+                    <div class="step-text">
+                        Use your ticket number to view messages and
+                        send a reply to the support team.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

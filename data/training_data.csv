@@ -1,0 +1,124 @@
+text,category
+I am worried about my upcoming exams,academic_pressure
+I have too much academic work,academic_pressure
+I am stressed about my grades,academic_pressure
+I cannot manage all my assignments,academic_pressure
+Exams are making me anxious,academic_pressure
+I feel overwhelmed with college work,academic_pressure
+I am struggling to keep up with my studies,academic_pressure
+I have too many deadlines,academic_pressure
+I am worried about failing my exam,academic_pressure
+My coursework is becoming difficult to manage,academic_pressure
+I have several assignments due soon,academic_pressure
+I cannot balance all my academic tasks,academic_pressure
+I am under pressure because of my studies,academic_pressure
+I am finding it hard to concentrate on my studies,academic_pressure
+I am worried about my academic performance,academic_pressure
+My exam preparation is stressing me out,academic_pressure
+I have a lot of college work pending,academic_pressure
+I am struggling with my coursework,academic_pressure
+I feel pressured by my grades,academic_pressure
+I am finding college studies overwhelming,academic_pressure
+I am stressed because of upcoming tests,academic_pressure
+I cannot keep up with my assignments,academic_pressure
+I have difficulty managing my study schedule,academic_pressure
+I am worried about my results,academic_pressure
+I feel pressure to perform well academically,academic_pressure
+I have been feeling stressed lately,general_stress
+I feel overwhelmed these days,general_stress
+I am having a difficult week,general_stress
+I don't feel like myself recently,general_stress
+I feel mentally tired,general_stress
+I have a lot on my mind,general_stress
+I feel under pressure,general_stress
+I am finding it hard to relax,general_stress
+I feel stressed about many things,general_stress
+I have been feeling drained,general_stress
+I am struggling to manage everything,general_stress
+Things have been difficult lately,general_stress
+I feel overwhelmed by everything,general_stress
+I have been feeling low on energy,general_stress
+I am having trouble switching off,general_stress
+I find it difficult to relax after college,general_stress
+I feel like I need a break,general_stress
+My daily routine has been stressful,general_stress
+I have been feeling tense lately,general_stress
+I am finding it hard to manage my day,general_stress
+I feel overloaded with things to do,general_stress
+I have been having a stressful time,general_stress
+I am struggling to handle everything at once,general_stress
+I feel mentally exhausted from my routine,general_stress
+I am having problems with my friends,social_concerns
+I feel left out by my classmates,social_concerns
+I am having trouble making friends,social_concerns
+I feel uncomfortable around people,social_concerns
+I don't feel connected to my classmates,social_concerns
+I am struggling with a friendship,social_concerns
+I feel lonely on campus,social_concerns
+I find social situations difficult,social_concerns
+I don't know how to approach my classmates,social_concerns
+I feel like I don't fit in,social_concerns
+I am having problems with my roommates,social_concerns
+I find it difficult to make friends at college,social_concerns
+I feel excluded from my friend group,social_concerns
+I am not getting along with some classmates,social_concerns
+I feel disconnected from people around me,social_concerns
+I am having a disagreement with a friend,social_concerns
+I don't feel comfortable in my social group,social_concerns
+I find it hard to meet new people,social_concerns
+I feel alone even when I am around people,social_concerns
+I am struggling with relationships with my classmates,social_concerns
+I feel like my friends don't understand me,social_concerns
+I am having difficulty fitting into college life,social_concerns
+I don't have many people to talk to on campus,social_concerns
+I feel isolated from my classmates,social_concerns
+I am struggling to connect with people,social_concerns
+I miss my family,homesickness
+I feel homesick,homesickness
+I want to go back home,homesickness
+I miss being with my family,homesickness
+College makes me miss home,homesickness
+I am finding it difficult to stay away from home,homesickness
+I wish I could visit my family,homesickness
+I miss my parents,homesickness
+I miss spending time with my family,homesickness
+I feel far away from home,homesickness
+I am finding college life away from home difficult,homesickness
+I keep thinking about home,homesickness
+I wish I was at home,homesickness
+I miss my hometown,homesickness
+I feel lonely because I am away from home,homesickness
+I want to spend more time with my family,homesickness
+I am having a hard time being away from my family,homesickness
+I miss the comfort of home,homesickness
+I feel homesick after coming to college,homesickness
+I miss my usual life at home,homesickness
+I am finding it hard to adjust to living away from home,homesickness
+I miss talking to my family every day,homesickness
+I wish my family was closer,homesickness
+I am struggling with being away from home,homesickness
+I just want someone to talk to,need_to_talk
+I don't know who I can talk to,need_to_talk
+I need someone to listen to me,need_to_talk
+I would like to talk to someone,need_to_talk
+I want some support,need_to_talk
+I need to share what I am feeling,need_to_talk
+I feel like talking to someone,need_to_talk
+Can I talk to someone about this,need_to_talk
+I would like someone to listen,need_to_talk
+I think talking to someone would help,need_to_talk
+I need somebody to talk with,need_to_talk
+I don't want to deal with this alone,need_to_talk
+I would like some guidance,need_to_talk
+I want to speak with someone privately,need_to_talk
+I need some support with what I am going through,need_to_talk
+I think I should talk to someone,need_to_talk
+Is there someone I can speak with,need_to_talk
+I would feel better if I could talk to someone,need_to_talk
+I need a person to listen to me,need_to_talk
+I want to discuss something with someone,need_to_talk
+I would like to get some support,need_to_talk
+I need help figuring things out,need_to_talk
+I don't know who to approach,need_to_talk
+I would like a private conversation,need_to_talk
+I need someone who can listen without judging,need_to_talk

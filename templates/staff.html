@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MindQuest - Staff Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .stat h2 {
+            margin: 0;
+        }
+
+        .ticket {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        input, textarea, select, button {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px;
+            margin-top: 7px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        button {
+            background: #222;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .message {
+            padding: 13px;
+            border-radius: 10px;
+            margin: 8px 0;
+        }
+
+        .student {
+            background: #eef4ff;
+            margin-right: 80px;
+        }
+
+        .staff {
+            background: #edf8ef;
+            margin-left: 80px;
+        }
+
+        .sender {
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .conversation {
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 700px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>MindQuest Staff Dashboard</h1>
+
+    {% if not selected_ticket %}
+
+    <div class="stats">
+
+        <div class="stat">
+            <h2>{{ stats['pending'] }}</h2>
+            <p>Pending</p>
+        </div>
+
+        <div class="stat">
+            <h2>{{ stats['reviewed'] }}</h2>
+            <p>Reviewed</p>
+        </div>
+
+        <div class="stat">
+            <h2>{{ stats['contacted'] }}</h2>
+            <p>Contacted</p>
+        </div>
+
+        <div class="stat">
+            <h2>{{ stats['resolved'] }}</h2>
+            <p>Resolved</p>
+        </div>
+
+    </div>
+
+
+    {% for ticket in tickets %}
+
+    <div class="ticket">
+
+        <h2>
+            {{ ticket['ticket_no'] }}
+        </h2>
+
+        <p>
+            <strong>Category:</strong>
+            {{ ticket['category'] }}
+        </p>
+
+        <p>
+            <strong>Student message:</strong><br>
+            {{ ticket['message'] }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            {{ ticket['status'] }}
+        </p>
+
+        <a href="/staff/ticket/{{ ticket['ticket_no'] }}">
+            <button type="button">
+                Open Conversation
+            </button>
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+    {% else %}
+
+    <div class="ticket">
+
+        <h2>
+            Ticket {{ selected_ticket['ticket_no'] }}
+        </h2>
+
+        <p>
+            <strong>Status:</strong>
+            {{ selected_ticket['status'] }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ selected_ticket['category'] }}
+        </p>
+
+
+        <h3>Conversation</h3>
+
+        <div class="conversation">
+
+            {% if messages %}
+
+                {% for msg in messages %}
+
+                    <div class="message {{ msg['sender_type'] }}">
+
+                        <div class="sender">
+
+                            {% if msg['sender_type'] == 'student' %}
+                                Student
+                            {% else %}
+                                Support Team
+                            {% endif %}
+
+                        </div>
+
+                        {{ msg['message'] }}
+
+                        <small>
+                            <br>
+                            {{ msg['created_at'] }}
+                        </small>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No messages yet.</p>
+
+            {% endif %}
+
+        </div>
+
+
+        <h3>Reply to Student</h3>
+
+        <form method="POST" action="/staff/reply">
+
+            <input
+                type="hidden"
+                name="ticket_no"
+                value="{{ selected_ticket['ticket_no'] }}"
+            >
+
+            <textarea
+                name="message"
+                placeholder="Write a response..."
+                required
+            ></textarea>
+
+            <button type="submit">
+                Send Reply
+            </button>
+
+        </form>
+
+
+        <hr>
+
+
+        <h3>Update Support Request</h3>
+
+        <form method="POST" action="/staff/update-ticket">
+
+            <input
+                type="hidden"
+                name="ticket_no"
+                value="{{ selected_ticket['ticket_no'] }}"
+            >
+
+            <label>Status</label>
+
+            <select name="status">
+
+                <option value="pending"
+                    {% if selected_ticket['status'] == 'pending' %}selected{% endif %}>
+                    Pending
+                </option>
+
+                <option value="reviewed"
+                    {% if selected_ticket['status'] == 'reviewed' %}selected{% endif %}>
+                    Reviewed
+                </option>
+
+                <option value="contacted"
+                    {% if selected_ticket['status'] == 'contacted' %}selected{% endif %}>
+                    Contacted
+                </option>
+
+                <option value="resolved"
+                    {% if selected_ticket['status'] == 'resolved' %}selected{% endif %}>
+                    Resolved
+                </option>
+
+            </select>
+
+
+            <label>Support Person Name</label>
+
+            <input
+                type="text"
+                name="mentor_name"
+                value="{{ selected_ticket['mentor_name'] or '' }}"
+            >
+
+
+            <label>Support Person Email</label>
+
+            <input
+                type="email"
+                name="mentor_email"
+                value="{{ selected_ticket['mentor_email'] or '' }}"
+            >
+
+
+            <label>Meeting Date</label>
+
+            <input
+                type="date"
+                name="meeting_date"
+                value="{{ meeting_data['meeting_date'] if meeting_data else '' }}"
+            >
+
+
+            <label>Meeting Time</label>
+
+            <input
+                type="time"
+                name="meeting_time"
+                value="{{ meeting_data['meeting_time'] if meeting_data else '' }}"
+            >
+
+
+            <label>Meeting Method</label>
+
+            <input
+                type="text"
+                name="meeting_method"
+                placeholder="Example: In person / Online"
+                value="{{ meeting_data['meeting_method'] if meeting_data else '' }}"
+            >
+
+
+            <label>Meeting Location</label>
+
+            <input
+                type="text"
+                name="meeting_location"
+                value="{{ meeting_data['meeting_location'] if meeting_data else '' }}"
+            >
+
+
+            <label>Contact Details</label>
+
+            <textarea
+                name="contact_details"
+            >{{ meeting_data['contact_details'] if meeting_data else '' }}</textarea>
+
+
+            <button type="submit">
+                Save Update
+            </button>
+
+        </form>
+
+        <br>
+
+        <a href="/staff">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

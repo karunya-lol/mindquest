@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MindQuest — Human Support</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #17352a;
+            --muted: #6d8177;
+            --soft: #edf5ef;
+            --glass: rgba(255, 255, 255, 0.68);
+            --border: rgba(255, 255, 255, 0.72);
+            --green: #477e60;
+            --green-dark: #315f47;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Display",
+                "SF Pro Text",
+                Inter,
+                sans-serif;
+
+            color: var(--ink);
+
+            background:
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(178, 214, 185, 0.72),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(205, 224, 204, 0.8),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #e9f3ea 0%,
+                    #f5f8f3 48%,
+                    #e7f1e8 100%
+                );
+
+            overflow-x: hidden;
+        }
+
+        /* Atmospheric background */
+
+        .background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .leaf {
+            position: absolute;
+            filter: blur(24px);
+            opacity: 0.42;
+            border-radius: 70% 30% 65% 35%;
+            transform: rotate(28deg);
+        }
+
+        .leaf.one {
+            width: 340px;
+            height: 170px;
+            background: #9fc8a9;
+            top: -20px;
+            left: -80px;
+        }
+
+        .leaf.two {
+            width: 430px;
+            height: 190px;
+            background: #b7d4bb;
+            right: -120px;
+            top: 12%;
+            transform: rotate(-32deg);
+        }
+
+        .leaf.three {
+            width: 360px;
+            height: 170px;
+            background: #a8cbb0;
+            left: 7%;
+            bottom: -80px;
+            transform: rotate(-20deg);
+        }
+
+        .leaf.four {
+            width: 420px;
+            height: 210px;
+            background: #c7dcc9;
+            right: -120px;
+            bottom: -50px;
+            transform: rotate(20deg);
+        }
+
+        .orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+        }
+
+        .orb.one {
+            background: #8fbd9b;
+            top: 35%;
+            left: 25%;
+        }
+
+        .orb.two {
+            background: #d4e4d0;
+            bottom: 15%;
+            right: 25%;
+        }
+
+        .grain {
+            position: absolute;
+            inset: 0;
+            opacity: 0.035;
+            background-image:
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+        }
+
+        /* Layout */
+
+        .page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 28px 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
+
+            display: grid;
+            place-items: center;
+
+            color: white;
+            background:
+                linear-gradient(
+                    145deg,
+                    #6d9b7a,
+                    #315f47
+                );
+
+            box-shadow:
+                0 8px 22px rgba(52, 94, 68, 0.18);
+        }
+
+        .brand-mark svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 9px 14px;
+            border-radius: 10px;
+
+            transition: 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.48);
+        }
+
+        main {
+            flex: 1;
+            width: min(820px, calc(100% - 40px));
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 45px 0 80px;
+        }
+
+        /* Main card */
+
+        .card {
+            width: 100%;
+
+            padding: 56px 58px 52px;
+
+            background: var(--glass);
+            border: 1px solid var(--border);
+
+            border-radius: 32px;
+
+            box-shadow:
+                0 30px 90px rgba(47, 76, 57, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.75);
+
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+
+            text-align: center;
+        }
+
+        .status-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 26px;
+
+            border-radius: 23px;
+
+            display: grid;
+            place-items: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(112, 157, 124, 0.18),
+                    rgba(72, 126, 96, 0.08)
+                );
+
+            border: 1px solid rgba(76, 126, 95, 0.13);
+        }
+
+        .status-icon svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--green-dark);
+        }
+
+        .eyebrow {
+            margin-bottom: 13px;
+
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 750;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: clamp(34px, 5vw, 52px);
+            line-height: 1.02;
+            letter-spacing: -0.055em;
+            font-weight: 700;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .lead {
+            max-width: 560px;
+            margin: 20px auto 0;
+
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* Human support message */
+
+        .support-box {
+            margin: 34px auto 0;
+            max-width: 620px;
+
+            padding: 22px 24px;
+
+            text-align: left;
+
+            background: rgba(244, 249, 244, 0.74);
+            border: 1px solid rgba(75, 120, 89, 0.10);
+            border-radius: 20px;
+        }
+
+        .support-box-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .support-box-title span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #5d9871;
+            box-shadow: 0 0 0 5px rgba(93, 152, 113, 0.10);
+        }
+
+        .support-box p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        /* Ticket */
+
+        .ticket {
+            margin: 28px auto 0;
+
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 11px 15px;
+
+            border-radius: 13px;
+
+            background: rgba(255, 255, 255, 0.62);
+            border: 1px solid rgba(255, 255, 255, 0.82);
+        }
+
+        .ticket-label {
+            color: #829289;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .ticket-number {
+            font-size: 14px;
+            font-weight: 750;
+            letter-spacing: 0.04em;
+        }
+
+        /* Actions */
+
+        .actions {
+            margin-top: 34px;
+
+            display: flex;
+            justify-content: center;
+            gap: 11px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            min-height: 46px;
+            padding: 0 20px;
+
+            border-radius: 13px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            text-decoration: none;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .button-primary {
+            color: white;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #527f63,
+                    #315f47
+                );
+
+            box-shadow:
+                0 9px 24px rgba(49, 95, 71, 0.20);
+        }
+
+        .button-primary:hover {
+            transform: translateY(-1px);
+            box-shadow:
+                0 13px 30px rgba(49, 95, 71, 0.25);
+        }
+
+        .button-secondary {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.78);
+        }
+
+        .button-secondary:hover {
+            background: rgba(255, 255, 255, 0.78);
+            transform: translateY(-1px);
+        }
+
+        /* Footer note */
+
+        .quiet-note {
+            margin-top: 30px;
+
+            color: #8a9990;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 700px) {
+            nav {
+                padding: 20px 0;
+            }
+
+            main {
+                padding-top: 25px;
+                padding-bottom: 45px;
+            }
+
+            .card {
+                padding: 42px 24px 38px;
+                border-radius: 26px;
+            }
+
+            h1 {
+                font-size: 37px;
+            }
+
+            .lead {
+                font-size: 15px;
+            }
+
+            .support-box {
+                padding: 19px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="leaf one"></div>
+    <div class="leaf two"></div>
+    <div class="leaf three"></div>
+    <div class="leaf four"></div>
+
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+    <div class="grain"></div>
+</div>
+
+<div class="page">
+
+    <nav>
+        <div class="brand">
+            <div class="brand-mark">
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M12 21V9"></path>
+                    <path d="M12 9C8 9 5 6.5 5 3c4 0 7 2 7 6"></path>
+                    <path d="M12 13c4 0 7-2.5 7-6-4 0-7 2-7 6"></path>
+                </svg>
+            </div>
+
+            <span>MindQuest</span>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="nav-link">
+            Back home
+        </a>
+    </nav>
+
+
+    <main>
+
+        <section class="card">
+
+            <div class="status-icon">
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M20 11.5a8.1 8.1 0 0 1-8.2 8.1 8.4 8.4 0 0 1-3.4-.7L4 20l1.1-4.1A8 8 0 1 1 20 11.5Z"></path>
+                    <path d="M8 11.5h.01"></path>
+                    <path d="M12 11.5h.01"></path>
+                    <path d="M16 11.5h.01"></path>
+                </svg>
+            </div>
+
+            <div class="eyebrow">
+                Human support
+            </div>
+
+            <h1>
+                You don't have to handle everything alone.
+            </h1>
+
+            <p class="lead">
+                Your request has been marked for human attention.
+                Someone on the support side can follow up and help you
+                figure out what to do next.
+            </p>
+
+
+            <div class="support-box">
+
+                <div class="support-box-title">
+                    <span></span>
+                    A person should follow up with you
+                </div>
+
+                <p>
+                    If you can, stay close to someone you trust while
+                    you're waiting for support. You can also let a trusted
+                    adult, teacher, mentor, or family member know that
+                    you'd like some help right now.
+                </p>
+
+            </div>
+
+
+            <div class="ticket">
+
+                <span class="ticket-label">
+                    Ticket
+                </span>
+
+                <span class="ticket-number">
+                    {{ request_id }}
+                </span>
+
+            </div>
+
+
+            <div class="actions">
+
+                <a
+                    href="{{ url_for('home') }}"
+                    class="button button-primary"
+                >
+                    Return to MindQuest
+                </a>
+
+                <a
+                    href="{{ url_for('insights') }}"
+                    class="button button-secondary"
+                >
+                    View insights
+                </a>
+
+            </div>
+
+
+            <p class="quiet-note">
+                You can come back whenever you're ready.
+            </p>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
