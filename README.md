@@ -10,8 +10,6 @@ MindQuest is a local-first student support platform that combines **Machine Lear
 - **Support Chat:** http://127.0.0.1:5000/support-status
 - **Staff Dashboard:** http://127.0.0.1:5000/staff
 - **Insights:** http://127.0.0.1:5000/insights
-- **API Health:** http://127.0.0.1:5000/api/health
-- **API Classification:** http://127.0.0.1:5000/api/classify
 - **n8n Dashboard:** http://localhost:5678
 
 > These links work when the Flask and n8n servers are running on the same computer.
